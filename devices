@@ -1,0 +1,16 @@
+#!/bin/zsh
+set -e
+mkdir -p logs
+
+echo "Listing ffmpeg avfoundation devices..."
+echo ""
+ffmpeg -f avfoundation -list_devices true -i "" 2>&1 | tee logs/devices.txt || true
+
+echo ""
+echo "Saved to logs/devices.txt"
+echo ""
+echo "Find something like:"
+echo "  [0] Capture screen 0"
+echo "  [1] MacBook Pro Microphone"
+echo "  [2] BlackHole 2ch / Aggregate Device"
+echo "Then edit config.env: SCREEN_DEVICE and AUDIO_DEVICE."

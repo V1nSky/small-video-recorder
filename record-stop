@@ -1,0 +1,40 @@
+#!/bin/zsh
+set -e
+cd "$(dirname "$0")"
+
+PID_FILE="state/record.pid"
+OUT_FILE_STATE="state/current_output.txt"
+
+if [ ! -f "$PID_FILE" ]; then
+  echo "No active recording PID found."
+  exit 0
+fi
+
+PID=$(cat "$PID_FILE")
+OUT=$(cat "$OUT_FILE_STATE" 2>/dev/null || echo "unknown")
+
+if ! kill -0 "$PID" 2>/dev/null; then
+  echo "Recording process is not running."
+  rm -f "$PID_FILE"
+  exit 0
+fi
+
+echo "Stopping recording PID $PID..."
+# SIGINT lets ffmpeg finalize mp4 correctly.
+kill -INT "$PID" 2>/dev/null || true
+
+for i in {1..20}; do
+  if ! kill -0 "$PID" 2>/dev/null; then
+    break
+  fi
+  sleep 0.5
+done
+
+if kill -0 "$PID" 2>/dev/null; then
+  echo "Still running, sending TERM..."
+  kill -TERM "$PID" 2>/dev/null || true
+fi
+
+rm -f "$PID_FILE"
+echo "Saved: $OUT"
+echo "Open folder: ./open-records"

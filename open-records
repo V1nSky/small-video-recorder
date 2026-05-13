@@ -1,0 +1,5 @@
+#!/bin/zsh
+cd "$(dirname "$0")"
+source ./config.env
+mkdir -p "$OUT_DIR"
+open "$OUT_DIR"

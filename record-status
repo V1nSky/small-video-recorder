@@ -1,0 +1,21 @@
+#!/bin/zsh
+cd "$(dirname "$0")"
+PID_FILE="state/record.pid"
+OUT_FILE_STATE="state/current_output.txt"
+
+if [ ! -f "$PID_FILE" ]; then
+  echo "Not recording."
+  exit 0
+fi
+
+PID=$(cat "$PID_FILE")
+OUT=$(cat "$OUT_FILE_STATE" 2>/dev/null || echo "unknown")
+
+if kill -0 "$PID" 2>/dev/null; then
+  echo "Recording is running."
+  echo "PID: $PID"
+  echo "Output: $OUT"
+else
+  echo "PID file exists, but process is not running."
+  echo "Last output: $OUT"
+fi
