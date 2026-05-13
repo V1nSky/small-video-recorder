@@ -7,7 +7,7 @@ It starts recording, saves PID, and lets you close Terminal. Later open Terminal
 ## Install
 
 ```bash
-cd /Users/vqns/develop/scripts
+cd /Users/*Name*/*dir*
 unzip ~/Downloads/mac-bg-recorder.zip
 cd mac-bg-recorder
 chmod +x *
@@ -42,7 +42,7 @@ Now you can close Terminal.
 ## Stop and save
 
 ```bash
-cd /Users/vqns/develop/scripts/mac-bg-recorder
+cd /Users/*Name*/*dir*/mac-bg-recorder
 ./record-stop
 ```
 
